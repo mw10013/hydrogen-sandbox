@@ -1,0 +1,13 @@
+{
+  "name": "hydrogen-sandbox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "pnpm run -r --stream build",
+    "dev": "pnpm run -r --stream --parallel dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
