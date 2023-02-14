@@ -16,4 +16,8 @@ module.exports = {
   serverModuleFormat: 'esm',
   serverPlatform: 'neutral',
   serverMinify: true,
+  future: {
+    // v2_meta: true,
+    // v2_routeConvention: true,
+  },
 };
