@@ -9,3 +9,4 @@ dist
 apps/**/public/build
 apps/**/api/index.js
 apps/**/api/index.js.map
+apps/hello-world/
