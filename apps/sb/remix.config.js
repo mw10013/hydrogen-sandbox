@@ -19,5 +19,6 @@ module.exports = {
   future: {
     // v2_meta: true,
     v2_routeConvention: true,
+    unstable_tailwind: true,
   },
 };
