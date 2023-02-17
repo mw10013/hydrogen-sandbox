@@ -1,6 +1,6 @@
 import {
   type LinksFunction,
-  type MetaFunction,
+  type V2_MetaFunction,
   type LoaderArgs,
 } from '@shopify/remix-oxygen';
 import {
@@ -32,12 +32,17 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const meta: MetaFunction = () => ({
-  charset: 'utf-8',
-  viewport: 'width=device-width,initial-scale=1',
-  title: 'Tahuu',
-  description: 'Tahuu chocolates - taste your spirit',
-});
+export const meta: V2_MetaFunction = () => {
+  return [
+    {
+      title: 'Tahuu',
+    },
+    {
+      name: 'description',
+      content: 'Tahuu chocolates - taste your spirit',
+    },
+  ];
+};
 
 export async function loader({context}: LoaderArgs) {
   const layout = await context.storefront.query<{shop: Shop}>(LAYOUT_QUERY);
@@ -45,19 +50,18 @@ export async function loader({context}: LoaderArgs) {
 }
 
 export default function App() {
-  const data = useLoaderData<typeof loader>();
-
-  const {name} = data.layout.shop;
+  // const data = useLoaderData<typeof loader>();
+  // const {name} = data.layout.shop;
 
   return (
     <html lang="en">
       <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
       </head>
       <body>
-        <h1>Hello, {name}</h1>
-        <p>This is a custom storefront powered by Hydrogen</p>
         <Outlet />
         <ScrollRestoration />
         <Scripts />

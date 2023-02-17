@@ -17,7 +17,7 @@ module.exports = {
   serverPlatform: 'neutral',
   serverMinify: true,
   future: {
-    // v2_meta: true,
+    v2_meta: true,
     v2_routeConvention: true,
     unstable_tailwind: true,
   },
