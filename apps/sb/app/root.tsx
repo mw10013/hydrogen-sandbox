@@ -12,13 +12,11 @@ import {
   useLoaderData,
 } from '@remix-run/react';
 import type {Shop} from '@shopify/hydrogen/storefront-api-types';
-import styles from './styles/app.css';
 import favicon from '../public/favicon.svg';
-import stylesheet from '~/tailwind.css';
+import stylesheet from '~/styles/tailwind.css';
 
 export const links: LinksFunction = () => {
   return [
-    {rel: 'stylesheet', href: styles},
     {rel: 'stylesheet', href: stylesheet},
     {
       rel: 'preconnect',
