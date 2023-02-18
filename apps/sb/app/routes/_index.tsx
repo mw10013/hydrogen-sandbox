@@ -65,10 +65,9 @@ export default function HomeRoute() {
       />
       <img src={logo} alt="" className="" />
       <div className="bg-gray-200 p-4">
-        <details open className="outline outline-2 outline-blue-300 p-4">
-          <summary>JSON</summary>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
-        </details>
+        <pre className="border-2 border-blue-300 p-4">
+          {JSON.stringify(data, null, 2)}
+        </pre>
       </div>
     </div>
   );
