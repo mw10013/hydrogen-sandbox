@@ -7,37 +7,32 @@ import logo from '~/assets/logo-webp.webp';
 // https://cdn.shopify.com/s/files/1/0720/0230/6368/files/background.webp?v=1676653150
 
 const query = `#graphql
-  query Layout {
-    metaobjects(type: "nav_bar", first: 5) {
-      nodes {
+query Layout {
+  layout: metaobject(handle: {handle: "main-layout", type: "layout"}) {
+    fields {
+      type
+      key
+      value
+      reference {
         __typename
-        handle
-        type
-        fields {
+        ... on MediaImage {
+          ...mediaImageFields
+        }
+      }
+      references(first: 10) {
+        nodes {
           __typename
-          type
-          key
-          value
-          references(first: 10) {
-            nodes {
-              __typename
-              ... on Metaobject {
-                handle
-                type
-                fields {
-                  __typename
-                  type
-                  key
-                  value
-                  reference {
-                    __typename
-                    ... on MediaImage {
-                      previewImage {
-                        __typename
-                        url
-                      }
-                    }
-                  }
+          ... on Metaobject {
+            handle
+            type
+            fields {
+              type
+              key
+              value
+              reference {
+                __typename
+                ... on MediaImage {
+                  ...mediaImageFields
                 }
               }
             }
@@ -46,6 +41,16 @@ const query = `#graphql
       }
     }
   }
+}
+
+fragment mediaImageFields on MediaImage {
+  image {
+    url
+    altText
+    width
+    height
+  }
+}
 `;
 
 export const loader = (async ({context}: LoaderArgs) => {
