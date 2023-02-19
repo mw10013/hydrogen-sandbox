@@ -1,6 +1,6 @@
 /* eslint-disable hydrogen/prefer-image-component */
 import {useLoaderData} from '@remix-run/react';
-import {LoaderArgs, LoaderFunction} from '@shopify/remix-oxygen';
+import {json, LoaderArgs, LoaderFunction} from '@shopify/remix-oxygen';
 import background from '~/assets/background-webp.webp';
 import logo from '~/assets/logo-webp.webp';
 
@@ -55,11 +55,15 @@ fragment mediaImageFields on MediaImage {
 
 export const loader = (async ({context}: LoaderArgs) => {
   const data = await context.storefront.query(query);
-  return {data};
+  return data;
 }) satisfies LoaderFunction;
 
 export default function HomeRoute() {
   const data = useLoaderData();
+  const layoutData = data.layout.fields.reduce((acc: any, v: any) => {
+    acc[v.key] = v;
+    return acc;
+  }, {});
   return (
     <div className="relative isolate overflow-hidden bg-gray-900 min-h-screen">
       <img
@@ -71,6 +75,9 @@ export default function HomeRoute() {
       <img src={logo} alt="" className="" />
       <div className="bg-gray-200 p-4">
         <pre className="border-2 border-blue-300 p-4">
+          {JSON.stringify(layoutData, null, 2)}
+        </pre>
+        <pre className="border-2 border-blue-300 p-4 mt-2">
           {JSON.stringify(data, null, 2)}
         </pre>
       </div>
