@@ -1,10 +1,6 @@
 /* eslint-disable hydrogen/prefer-image-component */
 import {useLoaderData} from '@remix-run/react';
-import {json, LoaderArgs, LoaderFunction} from '@shopify/remix-oxygen';
-import background from '~/assets/background-webp.webp';
-import logo from '~/assets/logo-webp.webp';
-
-// https://cdn.shopify.com/s/files/1/0720/0230/6368/files/background.webp?v=1676653150
+import {LoaderArgs, LoaderFunction} from '@shopify/remix-oxygen';
 
 const query = `#graphql
 query Layout {
@@ -85,23 +81,7 @@ export const loader = (async ({context}: LoaderArgs) => {
 
 export default function HomeRoute() {
   const data = useLoaderData();
-  return (
-    <div className="relative isolate overflow-hidden bg-gray-900 min-h-screen">
-      <img
-        src={data.background_image.url}
-        alt=""
-        // className="absolute inset-0 -z-10 h-full w-full object-none"
-        // className="absolute inset-0- top-0 left-0 -z-10 w-[1519px] h-[1301px] object-cover object-[50%_50%]"
-        className="absolute top-0 left-0 -z-10 w-full"
-      />
-      <img src={data.logo.url} alt="" className="w-[820px]" />
-      {/* <div className="bg-gray-200 p-4">
-        <pre className="border-2 border-blue-300 p-4 mt-2">
-          {JSON.stringify(data, null, 2)}
-        </pre>
-      </div> */}
-    </div>
-  );
+  return <div className="text-white text-2xl px-4 sm:px-6 lg:px-8">Index</div>;
 }
 
 /*
