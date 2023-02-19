@@ -83,13 +83,15 @@ function Header() {
   const data = useLoaderData();
   return (
     <div className="px-4 sm:px-6 lg:px-8">
-      <img src={data.logo.url} alt="" className="w-[820px]" />
-      <div className="flex">
-        {data.nav_links.map((i: any) => (
-          <Link key={i.name} to={i.href}>
-            <img className="h-32" src={i.image.url} alt={i.image.altText} />
-          </Link>
-        ))}
+      <div className="lg:flex lg:justify-between">
+        <img src={data.logo.url} alt="" className="w-[820px]" />
+        <div className="flex">
+          {data.nav_links.map((i: any) => (
+            <Link key={i.name} to={i.href} className="flex-none">
+              <img className="h-32" src={i.image.url} alt={i.image.altText} />
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
