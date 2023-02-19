@@ -1,5 +1,5 @@
 /* eslint-disable hydrogen/prefer-image-component */
-import {Outlet, useLoaderData} from '@remix-run/react';
+import {Link, Outlet, useLoaderData} from '@remix-run/react';
 import {LoaderArgs, LoaderFunction} from '@shopify/remix-oxygen';
 
 const query = `#graphql
@@ -79,6 +79,22 @@ export const loader = (async ({context}: LoaderArgs) => {
   return data;
 }) satisfies LoaderFunction;
 
+function Header() {
+  const data = useLoaderData();
+  return (
+    <div className="px-4 sm:px-6 lg:px-8">
+      <img src={data.logo.url} alt="" className="w-[820px]" />
+      <div className="flex">
+        {data.nav_links.map((i: any) => (
+          <Link key={i.name} to={i.href}>
+            <img className="h-32" src={i.image.url} alt={i.image.altText} />
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function LayoutRoute() {
   const data = useLoaderData();
   return (
@@ -90,7 +106,7 @@ export default function LayoutRoute() {
         // className="absolute inset-0- top-0 left-0 -z-10 w-[1519px] h-[1301px] object-cover object-[50%_50%]"
         className="absolute top-0 left-0 -z-10 w-full"
       />
-      <img src={data.logo.url} alt="" className="w-[820px]" />
+      <Header />
       <Outlet />
       {/* <div className="bg-gray-200 p-4">
         <pre className="border-2 border-blue-300 p-4 mt-2">
