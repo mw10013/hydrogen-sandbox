@@ -90,17 +90,16 @@ export default function HomeRoute() {
       <img
         src={data.background_image.url}
         alt=""
-        className="absolute inset-0 -z-10 h-full w-full object-none"
+        // className="absolute inset-0 -z-10 h-full w-full object-none"
+        // className="absolute inset-0- top-0 left-0 -z-10 w-[1519px] h-[1301px] object-cover object-[50%_50%]"
+        className="absolute top-0 left-0 -z-10 w-full"
       />
-      <img src={data.logo.url} alt="" className="" />
-      <div className="bg-gray-200 p-4">
-        {/* <pre className="border-2 border-blue-300 p-4">
-          {data.background_image.url}
-        </pre> */}
+      <img src={data.logo.url} alt="" className="w-[820px]" />
+      {/* <div className="bg-gray-200 p-4">
         <pre className="border-2 border-blue-300 p-4 mt-2">
           {JSON.stringify(data, null, 2)}
         </pre>
-      </div>
+      </div> */}
     </div>
   );
 }
