@@ -1,6 +1,7 @@
 /* eslint-disable hydrogen/prefer-image-component */
 import {Link, Outlet, useLoaderData} from '@remix-run/react';
 import {LoaderArgs, LoaderFunction} from '@shopify/remix-oxygen';
+import {Image} from '@shopify/hydrogen-react';
 
 const query = `#graphql
 query Layout {
@@ -83,8 +84,14 @@ function Header() {
   const data = useLoaderData();
   return (
     <div className="px-4 sm:px-6 lg:px-8">
-      <div className="lg:flex lg:justify-between">
-        <img src={data.logo.url} alt="" className="w-[820px]" />
+      {/* <img src={data.logo.url} alt="" className="object-none object-left-top" /> */}
+      {/* <img src={data.logo.url} alt="" className="w-[820px]" /> */}
+
+      <div className="lg:flex lg:justify-between mt-4">
+        <Link to="/">
+          {/* <Image data={data.logo} loaderOptions={{crop: 'left', width: 820}} /> */}
+          <img src={data.logo.url} alt="" className="w-[600px]" />
+        </Link>
         <div className="flex">
           {data.nav_links.map((i: any) => (
             <Link key={i.name} to={i.href} className="flex-none">
