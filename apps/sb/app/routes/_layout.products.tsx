@@ -1,4 +1,6 @@
-import {useLoaderData} from '@remix-run/react';
+/* eslint-disable hydrogen/prefer-image-component */
+import {Link, useLoaderData} from '@remix-run/react';
+import {Money} from '@shopify/hydrogen-react';
 import {LoaderArgs, LoaderFunction} from '@shopify/remix-oxygen';
 
 const query = `#graphql
@@ -26,34 +28,8 @@ query Products {
 `;
 
 export const loader = (async ({context}: LoaderArgs) => {
-  const result = (await context.storefront.query(query)) as any;
-  return result;
-  // const data: any = {};
-  // for (const field of result.layout.fields) {
-  //   switch (field.key) {
-  //     case 'background_image':
-  //     case 'logo':
-  //       data[field.key] = field.reference.image;
-  //       break;
-  //     case 'nav_links':
-  //       data[field.key] = field.references.nodes.map((i) => {
-  //         const o: any = {};
-  //         for (const f of i.fields) {
-  //           switch (f.type) {
-  //             case 'single_line_text_field':
-  //               o[f.key] = f.value;
-  //               break;
-  //             case 'file_reference':
-  //               o[f.key] = f.reference.image;
-  //               break;
-  //           }
-  //         }
-  //         return o;
-  //       });
-  //       break;
-  //   }
-  // }
-  // return data;
+  const data = (await context.storefront.query(query)) as any;
+  return data;
 }) satisfies LoaderFunction;
 
 export default function Route() {
@@ -62,8 +38,59 @@ export default function Route() {
     <div className="px-4 sm:px-6 lg:px-8 py-8">
       <div className="border-4 border-black mx-auto max-w-6xl bg-black/40">
         <div className="text-white text-3xl pt-4 px-8">Our Boxes</div>
+        <div>
+          {data.products.nodes.map((i: any) => {
+            return (
+              <div key={i.handle} className="text-white">
+                <Link to={`/products/${i.handle}`}>
+                  <div className="flex flex-col gap-2 items-center">
+                    <img
+                      className="w-40"
+                      src={i.featuredImage.url}
+                      alt={i.featuredImage.altText}
+                    />
+                    <p>{i.title}</p>
+                    <Money
+                      className="text-white"
+                      data={i.priceRange.maxVariantPrice}
+                      withoutCurrency
+                    />
+                  </div>
+                </Link>
+              </div>
+            );
+          })}
+        </div>
         <pre className="text-white">{JSON.stringify(data, null, 2)}</pre>
       </div>
     </div>
   );
 }
+
+/*
+
+{
+  "products": {
+    "nodes": [
+      {
+        "handle": "70-dark-chocolate",
+        "title": "70% Dark Chocolate",
+        "availableForSale": true,
+        "priceRange": {
+          "maxVariantPrice": {
+            "amount": "35.0",
+            "currencyCode": "USD"
+          }
+        },
+        "featuredImage": {
+          "url": "https://cdn.shopify.com/s/files/1/0720/0230/6368/products/43dc46_de5c6ba4cd3149478deb4288e1dc5a4e_mv2.webp?v=1676500217",
+          "altText": null,
+          "width": 650,
+          "height": 840
+        }
+      }
+    ]
+  }
+}
+
+*/
