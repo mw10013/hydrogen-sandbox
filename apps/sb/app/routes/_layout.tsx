@@ -84,18 +84,19 @@ function Header() {
   const data = useLoaderData();
   return (
     <div className="px-4 sm:px-6 lg:px-8">
-      {/* <img src={data.logo.url} alt="" className="object-none object-left-top" /> */}
-      {/* <img src={data.logo.url} alt="" className="w-[820px]" /> */}
-
       <div className="lg:flex lg:justify-between mt-4">
         <Link to="/">
           {/* <Image data={data.logo} loaderOptions={{crop: 'left', width: 820}} /> */}
           <img src={data.logo.url} alt="" className="w-[600px]" />
         </Link>
-        <div className="flex">
+        <div className="flex justify-center">
           {data.nav_links.map((i: any) => (
             <Link key={i.name} to={i.href} className="flex-none">
-              <img className="h-32" src={i.image.url} alt={i.image.altText} />
+              <img
+                className="h-16 sm:h-20"
+                src={i.image.url}
+                alt={i.image.altText}
+              />
             </Link>
           ))}
         </div>
