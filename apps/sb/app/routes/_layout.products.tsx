@@ -51,7 +51,7 @@ export default function Route() {
                     />
                     <p>{i.title}</p>
                     <Money
-                      className="text-white"
+                      className="text-gray-200"
                       data={i.priceRange.maxVariantPrice}
                       withoutCurrency
                     />
