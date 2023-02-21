@@ -38,7 +38,7 @@ export default function Route() {
     <div className="px-4 sm:px-6 lg:px-8 py-8">
       <div className="border-4 border-black mx-auto max-w-6xl bg-black/40">
         <div className="text-3xl pt-4 px-8 text-white ">Our Boxes</div>
-        <div>
+        <div className="space-y-6 mt-6">
           {data.products.nodes.map((i: any) => {
             return (
               <div key={i.handle} className="text-white">
@@ -57,6 +57,14 @@ export default function Route() {
                     />
                   </div>
                 </Link>
+                <div className="grid place-content-center mt-2">
+                  <button
+                    type="button"
+                    className="inline-flex items-center px-5 py-2 border border-transparent text-base font-medium rounded-full shadow-sm text-gray-700 bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
               </div>
             );
           })}
