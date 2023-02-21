@@ -60,9 +60,10 @@ export default function Route() {
                 <div className="grid place-content-center mt-2">
                   <button
                     type="button"
-                    className="inline-flex items-center px-5 py-2 border border-transparent text-base font-medium rounded-full shadow-sm text-gray-700 bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                    disabled={!i.availableForSale}
+                    className="disabled:opacity-50 inline-flex items-center px-5 py{-2 border border-transparent text-base font-medium rounded-full shadow-sm text-gray-700 bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
                   >
-                    Add to Cart
+                    {i.availableForSale ? 'Add to Cart' : 'Out of Stock'}
                   </button>
                 </div>
               </div>
