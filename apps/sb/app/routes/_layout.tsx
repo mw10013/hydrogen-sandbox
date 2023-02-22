@@ -110,8 +110,12 @@ export default function LayoutRoute() {
   const data = useLoaderData();
   return (
     <div
-      className="relative isolate overflow-hidden bg-gray-900
-    h-screen bg-cover bg-center bg-[url('https://cdn.shopify.com/s/files/1/0720/0230/6368/files/background.jpg?v=1676861944')]"
+      style={{
+        backgroundImage:
+          "url('https://cdn.shopify.com/s/files/1/0720/0230/6368/files/background.jpg?v=1676861944')",
+      }}
+      className="relative isolate overflow-auto bg-gray-900
+    h-screen bg-cover bg-center bg-[url('https://cdn.shopify.com/s/files/1/0720/0230/6368/files/background.jpg?v=1676861944')]-"
     >
       {/* <img
         src={data.background_image.url}
