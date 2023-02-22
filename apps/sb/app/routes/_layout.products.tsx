@@ -28,7 +28,7 @@ query Products {
 `;
 
 export const loader = (async ({context}: LoaderArgs) => {
-  const data = (await context.storefront.query(query)) as any;
+  const data = await context.storefront.query<any>(query);
   return data;
 }) satisfies LoaderFunction;
 
@@ -36,8 +36,8 @@ export default function Route() {
   const data = useLoaderData<typeof loader>();
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-8">
-      <div className="border-4 border-black mx-auto max-w-6xl bg-black/40">
-        <div className="text-3xl pt-4 px-8 text-white ">Our Boxes</div>
+      <div className="border-4 border-black mx-auto max-w-6xl bg-black/40 py-6">
+        <div className="text-3xl px-8 text-white ">Our Boxes</div>
         <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-6  mt-6">
           {data.products.nodes.map((i: any) => {
             return (
@@ -49,7 +49,7 @@ export default function Route() {
                       src={i.featuredImage.url}
                       alt={i.featuredImage.altText}
                     />
-                    <p>{i.title}</p>
+                    <p className="text-center">{i.title}</p>
                     <Money
                       className="text-gray-200"
                       data={i.priceRange.maxVariantPrice}
