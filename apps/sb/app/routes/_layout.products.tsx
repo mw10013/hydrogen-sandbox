@@ -38,7 +38,7 @@ export default function Route() {
     <div className="px-4 sm:px-6 lg:px-8 py-8">
       <div className="border-4 border-black mx-auto max-w-6xl bg-black/40">
         <div className="text-3xl pt-4 px-8 text-white ">Our Boxes</div>
-        <div className="grid grid-flow-col gap-4  mt-6">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-6  mt-6">
           {data.products.nodes.map((i: any) => {
             return (
               <div key={i.handle} className="text-white">
