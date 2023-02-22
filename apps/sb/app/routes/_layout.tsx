@@ -93,11 +93,13 @@ function Header() {
           {data.nav_links.map((i: any) => (
             <Link key={i.name} to={i.href} className="flex-none">
               <img
-                className="h-16 sm:h-20"
+                className="w-[90px] h-[75px] sm:w-[125px] sm:h-[100px]"
                 src={i.image.url}
                 alt={i.image.altText}
                 // width={i.image.width}
                 // height={i.image.height}
+                width={358}
+                height={300}
               />
             </Link>
           ))}
