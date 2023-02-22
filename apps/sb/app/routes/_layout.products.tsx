@@ -48,6 +48,8 @@ export default function Route() {
                       className="w-40"
                       src={i.featuredImage.url}
                       alt={i.featuredImage.altText}
+                      width={i.featuredImage.width}
+                      height={i.featuredImage.height}
                     />
                     <p className="text-center">{i.title}</p>
                     <Money

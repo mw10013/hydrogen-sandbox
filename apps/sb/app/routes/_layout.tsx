@@ -96,6 +96,8 @@ function Header() {
                 className="h-16 sm:h-20"
                 src={i.image.url}
                 alt={i.image.altText}
+                // width={i.image.width}
+                // height={i.image.height}
               />
             </Link>
           ))}
@@ -105,27 +107,15 @@ function Header() {
   );
 }
 
-// background image: 3038 × 2602
 export default function LayoutRoute() {
   const data = useLoaderData();
   return (
     <div
+      className="overflow-auto h-screen bg-cover bg-center"
       style={{
-        backgroundImage:
-          "url('https://cdn.shopify.com/s/files/1/0720/0230/6368/files/background.jpg?v=1676861944')",
+        backgroundImage: `url('${data.background_image.url}')`,
       }}
-      className="relative isolate overflow-auto bg-gray-900
-    h-screen bg-cover bg-center bg-[url('https://cdn.shopify.com/s/files/1/0720/0230/6368/files/background.jpg?v=1676861944')]-"
     >
-      {/* <img
-        src={data.background_image.url}
-        alt=""
-        // className="absolute inset-0 -z-10 h-full w-full object-none"
-        // className="absolute inset-0- top-0 left-0 -z-10 w-[1519px] h-[1301px] object-cover object-[50%_50%]"
-        // className="absolute top-0 left-0 -z-10 w-full"
-        // className="absolute inset-0 -z-10 h-full w-full object-cover"
-        className="absolute inset-0 -z-10 w-[1519px] h-[1301px] object-left-top"
-      /> */}
       <Header />
       <Outlet />
       {/* <div className="bg-gray-200 p-4">
