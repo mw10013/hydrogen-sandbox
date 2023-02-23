@@ -1,0 +1,261 @@
+{
+  "data": {
+    "products": {
+      "nodes": [
+        {
+          "handle": "70-dark-chocolate",
+          "title": "70% Dark Chocolate",
+          "description": "The Original Chocalate. Soft, rich, smooth 70% Dark Chocolate. Ingredients : Dark Chocolate, Coconut Oil, 1.5g sugar! For Focus, Performance and Energy. 18p Box Assortment 100% vegan and Gluten Free",
+          "availableForSale": true,
+          "priceRange": {
+            "maxVariantPrice": {
+              "amount": "35.0",
+              "currencyCode": "USD"
+            }
+          },
+          "totalInventory": 5,
+          "variants": {
+            "nodes": [
+              {
+                "price": {
+                  "amount": "35.0",
+                  "currencyCode": "USD"
+                },
+                "sku": "135668549887633"
+              }
+            ]
+          },
+          "featuredImage": {
+            "url": "https://cdn.shopify.com/s/files/1/0720/0230/6368/products/43dc46_de5c6ba4cd3149478deb4288e1dc5a4e_mv2.webp?v=1676500217",
+            "altText": null,
+            "width": 650,
+            "height": 840
+          }
+        }
+      ]
+    }
+  }
+}
+
+{
+  "data": {
+    "layout": {
+      "fields": [
+        {
+          "type": "file_reference",
+          "key": "background_image",
+          "value": "gid://shopify/MediaImage/32920574722368",
+          "reference": {
+            "__typename": "MediaImage",
+            "image": {
+              "url": "https://cdn.shopify.com/s/files/1/0720/0230/6368/files/background-webp.webp?v=1676655454",
+              "altText": null,
+              "width": 1960,
+              "height": 2602
+            }
+          },
+          "references": null
+        },
+        {
+          "type": "file_reference",
+          "key": "logo",
+          "value": "gid://shopify/MediaImage/32920278204736",
+          "reference": {
+            "__typename": "MediaImage",
+            "image": {
+              "url": "https://cdn.shopify.com/s/files/1/0720/0230/6368/files/logo-webp.webp?v=1676653169",
+              "altText": null,
+              "width": 1660,
+              "height": 432
+            }
+          },
+          "references": null
+        },
+        {
+          "type": "list.metaobject_reference",
+          "key": "nav_links",
+          "value": "[\"gid://shopify/Metaobject/9830720\",\"gid://shopify/Metaobject/9863488\"]",
+          "reference": null,
+          "references": {
+            "nodes": [
+              {
+                "__typename": "Metaobject",
+                "handle": "about",
+                "type": "nav_link",
+                "fields": [
+                  {
+                    "type": "single_line_text_field",
+                    "key": "href",
+                    "value": "/about",
+                    "reference": null
+                  },
+                  {
+                    "type": "file_reference",
+                    "key": "image",
+                    "value": "gid://shopify/MediaImage/32920282923328",
+                    "reference": {
+                      "__typename": "MediaImage",
+                      "image": {
+                        "url": "https://cdn.shopify.com/s/files/1/0720/0230/6368/files/about-png.png?v=1676653197",
+                        "altText": null,
+                        "width": 358,
+                        "height": 300
+                      }
+                    }
+                  },
+                  {
+                    "type": "single_line_text_field",
+                    "key": "name",
+                    "value": "About",
+                    "reference": null
+                  }
+                ]
+              },
+              {
+                "__typename": "Metaobject",
+                "handle": "story",
+                "type": "nav_link",
+                "fields": [
+                  {
+                    "type": "single_line_text_field",
+                    "key": "href",
+                    "value": "/story",
+                    "reference": null
+                  },
+                  {
+                    "type": "file_reference",
+                    "key": "image",
+                    "value": "gid://shopify/MediaImage/32920283087168",
+                    "reference": {
+                      "__typename": "MediaImage",
+                      "image": {
+                        "url": "https://cdn.shopify.com/s/files/1/0720/0230/6368/files/story-png.png?v=1676653197",
+                        "altText": null,
+                        "width": 356,
+                        "height": 300
+                      }
+                    }
+                  },
+                  {
+                    "type": "single_line_text_field",
+                    "key": "name",
+                    "value": "Story",
+                    "reference": null
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+
+{
+  "data": {
+    "metaobjects": {
+      "nodes": [
+        {
+          "__typename": "Metaobject",
+          "handle": "main",
+          "type": "nav_bar",
+          "fields": [
+            {
+              "__typename": "MetaobjectField",
+              "type": "list.metaobject_reference",
+              "key": "links",
+              "value": "[\"gid://shopify/Metaobject/9830720\",\"gid://shopify/Metaobject/9863488\"]",
+              "references": {
+                "nodes": [
+                  {
+                    "__typename": "Metaobject",
+                    "handle": "about",
+                    "type": "nav_link",
+                    "fields": [
+                      {
+                        "__typename": "MetaobjectField",
+                        "type": "single_line_text_field",
+                        "key": "href",
+                        "value": "/about",
+                        "reference": null
+                      },
+                      {
+                        "__typename": "MetaobjectField",
+                        "type": "file_reference",
+                        "key": "image",
+                        "value": "gid://shopify/MediaImage/32920282923328",
+                        "reference": {
+                          "__typename": "MediaImage",
+                          "previewImage": {
+                            "__typename": "Image",
+                            "url": "https://cdn.shopify.com/s/files/1/0720/0230/6368/files/about-png.png?v=1676653197"
+                          }
+                        }
+                      },
+                      {
+                        "__typename": "MetaobjectField",
+                        "type": "single_line_text_field",
+                        "key": "name",
+                        "value": "About",
+                        "reference": null
+                      }
+                    ]
+                  },
+                  {
+                    "__typename": "Metaobject",
+                    "handle": "story",
+                    "type": "nav_link",
+                    "fields": [
+                      {
+                        "__typename": "MetaobjectField",
+                        "type": "single_line_text_field",
+                        "key": "href",
+                        "value": "/story",
+                        "reference": null
+                      },
+                      {
+                        "__typename": "MetaobjectField",
+                        "type": "file_reference",
+                        "key": "image",
+                        "value": "gid://shopify/MediaImage/32920283087168",
+                        "reference": {
+                          "__typename": "MediaImage",
+                          "previewImage": {
+                            "__typename": "Image",
+                            "url": "https://cdn.shopify.com/s/files/1/0720/0230/6368/files/story-png.png?v=1676653197"
+                          }
+                        }
+                      },
+                      {
+                        "__typename": "MetaobjectField",
+                        "type": "single_line_text_field",
+                        "key": "name",
+                        "value": "Story",
+                        "reference": null
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "__typename": "MetaobjectField",
+              "type": "file_reference",
+              "key": "logo",
+              "value": "gid://shopify/MediaImage/32920278204736",
+              "references": null
+            },
+            {
+              "__typename": "MetaobjectField",
+              "type": "single_line_text_field",
+              "key": "name",
+              "value": "Main",
+              "references": null
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

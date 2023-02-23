@@ -1,0 +1,92 @@
+var shop = "bb494547-f001-4588-8a4c-f0c8bdc9662d";var goaffproLastOrderConversionCallback = ()=>{
+    const path = document.location.pathname;
+    if (window.goaffproTrackConversion && path.includes("/thank-you-page")) {
+        window.goaffproTrackConversion('last_order')
+    }
+}
+function goaffproRegisterListener() {
+    function loadScript() {
+        const exists = document.getElementById('goaffproApiScript')
+        if (!exists) {
+            const script = document.createElement('script');
+            script.id = "goaffproApiScript"
+            script.src = "https://api.goaffpro.com/loader.js?shop="+shop;
+            script.async = false
+            document.head.appendChild(script);
+        }
+    }
+    window.wixDevelopersAnalytics.register('1129148b-e312-4228-ad46-9e10c1f22229', function report(eventName, data) {
+        switch(eventName){
+            case "Schedule":
+                //the booking is scheduled now
+
+            case "ViewContent":
+                loadScript();
+                break;
+                //load script here
+            case "PageView":
+                loadScript();
+                if(window.trackVisit) trackVisit();
+                setTimeout(()=>{
+                    if(goaffproLastOrderConversionCallback){
+                        goaffproLastOrderConversionCallback()
+                    }
+                },2000)
+                break;
+            case "Purchase":
+                goaffproLastOrderConversionCallback = undefined;
+                if(data.origin !== "Stores"){
+                    window.goaffpro_order = {
+                        id: (data.id !== "unknown" ? data.id : null) || String(Date.now()),
+                        type:data.origin,
+                        forceSDK:true,
+                        total:data.revenue,
+                        originalEvent: data,
+                        currency:data.currency,
+                        tax: data.tax,
+                        coupons: data.coupon ? [data.coupon] : undefined,
+                        line_items: data.contents && data.contents.map(({id, price, name})=>{
+                            return {
+                                name: name || data.origin,
+                                quantity:1,
+                                price,
+                                id,
+                            }
+                        })
+                    }
+                    if(window.goaffproTrackConversion) window.goaffproTrackConversion(window.goaffpro_order)
+                }else{
+                    window.goaffpro_order = {
+                        id: data.orderId || data.id,
+                    }
+                    if(window.checkoutPageCallback) checkoutPageCallback()
+                }
+                break;
+        }
+        console.log("goaffpro", eventName, data);
+    })
+}
+
+window.wixDevelopersAnalytics ?  goaffproRegisterListener() : window.addEventListener('wixDevelopersAnalyticsReady', goaffproRegisterListener);
+function init(){
+    const gfpWixLoadInterval = setInterval(function(){
+        try {
+            const path = document.location.pathname;
+            if (path.includes("/thank-you-page")) {
+                // window.goaffpro_order = {id: parts[1]}
+                //if(window.checkoutPageCallback) checkoutPageCallback()
+                //load checkout widget
+                const script = document.createElement('script');
+                script.id = "goaffproCheckoutWidget"
+                script.src = "https://api.goaffpro.com/checkout_widget.js?shop="+shop;
+                script.async = false
+                document.head.appendChild(script);
+                clearInterval(gfpWixLoadInterval)
+            }
+        }catch(e){
+
+        }
+    }, 1000)
+}
+init()
+

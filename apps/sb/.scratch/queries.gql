@@ -1,0 +1,165 @@
+query Product {
+  product(handle: "70-dark-chocolate") {
+    title
+    description
+    availableForSale
+    priceRange {
+      maxVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+    totalInventory
+    variants(first: 1) {
+      nodes {
+        id
+        price {
+          amount
+          currencyCode
+        }
+        sku
+      }
+    }
+    featuredImage {
+      url
+      altText
+      width
+      height
+    }
+  }
+}
+
+query Products {
+  products(first: 16) {
+    nodes {
+      handle
+      title
+      description
+      availableForSale
+      priceRange {
+        maxVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      totalInventory
+      variants(first: 1) {
+        nodes {
+          price {
+            amount
+            currencyCode
+          }
+          sku
+        }
+      }
+      featuredImage {
+        url
+        altText
+        width
+        height
+      }
+    }
+  }
+}
+
+fragment mediaImageFields on MediaImage {
+  image {
+    url
+    altText
+    width
+    height
+  }
+}
+
+query Layout {
+  metaobject(handle: {handle: "main-layout", type: "layout"}) {
+    fields {
+      type
+      key
+      value
+      reference {
+        __typename
+        ... on MediaImage {
+          ...mediaImageFields
+        }
+      }
+      references(first: 10) {
+        nodes {
+          __typename
+          ... on Metaobject {
+            handle
+            type
+            fields {
+              type
+              key
+              value
+              reference {
+                __typename
+                ... on MediaImage {
+                  ...mediaImageFields
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+fragment mediaImageFields on MediaImage {
+  image {
+    url
+    altText
+    width
+    height
+  }
+}
+
+query Layout {
+  metaobject(handle: {handle: "main-layout", type: "layout"}) {
+    fields {
+      __typename
+      type
+      key
+      value
+      reference {
+        __typename
+        ... on MediaImage {
+          image {
+            url
+            altText
+            width
+            height
+          }
+        }
+      }
+      references(first: 10) {
+        nodes {
+          __typename
+          ... on Metaobject {
+            handle
+            type
+            fields {
+              __typename
+              type
+              key
+              value
+              reference {
+                __typename
+                ... on MediaImage {
+                  image {
+                    url
+                    altText
+                    width
+                    height
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
