@@ -1,6 +1,8 @@
 /* eslint-disable hydrogen/prefer-image-component */
 import {useLoaderData} from '@remix-run/react';
+import {Money} from '@shopify/hydrogen-react';
 import {LoaderArgs, LoaderFunction} from '@shopify/remix-oxygen';
+import invariant from 'tiny-invariant';
 
 const query = `#graphql
 query Product($handle: String!) {
@@ -35,27 +37,52 @@ query Product($handle: String!) {
   }
   `;
 
-export const loader = (async ({context}: LoaderArgs) => {
+export const loader = (async ({context, params}: LoaderArgs) => {
+  const handle = params.handle;
+  invariant(handle, 'Missing handle');
   const data = await context.storefront.query<any>(query, {
     variables: {
-      handle: '70-dark-chocolate',
+      handle,
     },
   });
   return data;
 }) satisfies LoaderFunction;
 
 export default function ProductRoute() {
-  const data = useLoaderData<typeof loader>();
+  const {product} = useLoaderData<typeof loader>();
   return (
-    <div className="bg-gray-200">
-      <img
-        src={data.product.featuredImage.url}
-        alt={data.product.featuredImage.altText}
-        width={data.product.featuredImage.width}
-        height={data.product.featuredImage.height}
-      />
-      Product
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+    <div className="px-4 sm:px-6 lg:px-8 py-8">
+      <div className="border-4 border-black mx-auto max-w-6xl bg-black/40 py-6 px-4 sm:px-6 lg:px-8 py-8">
+        <div className="">
+          <div className="flex justify-between">
+            <h1 className="text-xl font-medium text-gray-100 ">
+              {product.title}
+            </h1>
+            <p className="text-xl font-medium text-gray-100">
+              <Money
+                data={product.priceRange.maxVariantPrice}
+                withoutCurrency
+              />
+            </p>
+          </div>
+        </div>
+        <div className="mt-8">
+          <img
+            className="rounded-lg"
+            src={product.featuredImage.url}
+            alt={product.featuredImage.altText}
+            width={product.featuredImage.width}
+            height={product.featuredImage.height}
+          />
+        </div>
+        <div className="mt-8">
+          <h2 className="text-sm font-medium text-gray-100">Description</h2>
+          <div className="prose prose-sm mt-4 text-gray-300">
+            {product.description}
+          </div>
+        </div>
+        {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
+      </div>
     </div>
   );
 }
