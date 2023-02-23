@@ -52,9 +52,9 @@ export default function ProductRoute() {
   const {product} = useLoaderData<typeof loader>();
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-8">
-      <div className="border-4 border-black mx-auto max-w-6xl bg-black/40 py-6 px-4 sm:px-6 lg:px-8 py-8">
-        <div className="">
-          <div className="flex justify-between">
+      <div className="border-4 border-black mx-auto max-w-2xl bg-black/40 px-4 sm:px-6 lg:px-8 py-8">
+        <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
+          <div className="flex justify-between lg:col-span-5 lg:col-start-8">
             <h1 className="text-xl font-medium text-gray-100 ">
               {product.title}
             </h1>
@@ -65,22 +65,23 @@ export default function ProductRoute() {
               />
             </p>
           </div>
-        </div>
-        <div className="mt-8">
-          <img
-            className="rounded-lg"
-            src={product.featuredImage.url}
-            alt={product.featuredImage.altText}
-            width={product.featuredImage.width}
-            height={product.featuredImage.height}
-          />
-        </div>
-        <div className="mt-8">
-          <h2 className="text-sm font-medium text-gray-100">Description</h2>
-          <div className="prose prose-sm mt-4 text-gray-300">
-            {product.description}
+          <div className="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start1 lg:mt-0">
+            <img
+              className="rounded-lg"
+              src={product.featuredImage.url}
+              alt={product.featuredImage.altText}
+              width={product.featuredImage.width}
+              height={product.featuredImage.height}
+            />
+          </div>
+          <div className="mt-8 lg:col-span-5">
+            <h2 className="text-sm font-medium text-gray-100">Description</h2>
+            <div className="prose prose-sm mt-4 text-gray-300">
+              {product.description}
+            </div>
           </div>
         </div>
+
         {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       </div>
     </div>
