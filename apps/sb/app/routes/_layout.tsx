@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable hydrogen/prefer-image-component */
-import {Link, Outlet, useLoaderData} from '@remix-run/react';
+import {Await, Link, Outlet, useLoaderData, useMatches} from '@remix-run/react';
 import {
   AppLoadContext,
+  defer,
   LoaderArgs,
   LoaderFunction,
 } from '@shopify/remix-oxygen';
@@ -17,6 +18,7 @@ import {
 import invariant from 'tiny-invariant';
 import {Storefront} from '@shopify/hydrogen';
 import {Cart} from '@shopify/hydrogen/storefront-api-types';
+import {Suspense} from 'react';
 
 const LAYOUT_QUERY = `#graphql
 query Layout {
@@ -225,16 +227,30 @@ async function getCart({storefront}: AppLoadContext, cartId: string) {
 }
 
 export const loader = (async ({context}: LoaderArgs) => {
-  return await getLayoutData(context);
+  const [cartId, layout] = await Promise.all([
+    context.session.get('cartId'),
+    getLayoutData(context),
+  ]);
+
+  return defer({
+    layout,
+    selectedLocale: context.storefront.i18n,
+    cartId,
+    cart: cartId ? getCart(context, cartId) : undefined,
+    // analytics: {
+    //   shopifySalesChannel: ShopifySalesChannel.hydrogen,
+    //   shopId: layout.shop.id,
+    // },
+  });
 }) satisfies LoaderFunction;
 
 function Header() {
-  const data = useLoaderData();
+  const {layout, ...data} = useLoaderData<typeof loader>();
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="flex justify-between">
         <div></div>
-        <div className="bg-black opacity-80 mt-8 p-2 rounded-md shadow">
+        <div className="bg-black opacity-80 mt-8 p-2 rounded-md shadow text-gray-200">
           <a href="#" className="group -m-2 flex items-center p-2">
             <ShoppingBagIcon
               className="h-6 w-6 flex-shrink-0 text-gray-200 group-hover:text-gray-500"
@@ -245,15 +261,21 @@ function Header() {
             </span>
             <span className="sr-only">items in cart, view bag</span>
           </a>
+          <Suspense fallback={<p>Awaiting cart</p>}>
+            <Await resolve={data.cart}>
+              {(cart) => <pre>{JSON.stringify(cart, null, 2)}</pre>}
+            </Await>
+          </Suspense>
+          <pre>{JSON.stringify(data, null, 2)}</pre>
         </div>
       </div>
       <div className="lg:flex lg:justify-between mt-4">
         <Link to="/">
           {/* <Image data={data.logo} loaderOptions={{crop: 'left', width: 820}} /> */}
-          <img src={data.logo.url} alt="" className="w-[600px]" />
+          <img src={layout.logo.url} alt="" className="w-[600px]" />
         </Link>
         <div className="flex justify-center">
-          {data.nav_links.map((i: any) => (
+          {layout.nav_links.map((i: any) => (
             <Link key={i.name} to={i.href} className="flex-none">
               <img
                 className="w-[90px] h-[75px] sm:w-[125px] sm:h-[100px]"
@@ -273,12 +295,12 @@ function Header() {
 }
 
 export default function LayoutRoute() {
-  const data = useLoaderData();
+  const {layout} = useLoaderData<typeof loader>();
   return (
     <div
       className="overflow-auto h-screen bg-cover bg-center"
       style={{
-        backgroundImage: `url('${data.background_image.url}')`,
+        backgroundImage: `url('${layout.background_image.url}')`,
       }}
     >
       <Header />
