@@ -1,17 +1,11 @@
-import {
-  type LinksFunction,
-  type V2_MetaFunction,
-  type LoaderArgs,
-} from '@shopify/remix-oxygen';
+import {type LinksFunction, type V2_MetaFunction} from '@shopify/remix-oxygen';
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
 } from '@remix-run/react';
-import type {Shop} from '@shopify/hydrogen/storefront-api-types';
 import favicon from '../public/favicon.svg';
 import stylesheet from '~/styles/tailwind.css';
 
@@ -42,15 +36,7 @@ export const meta: V2_MetaFunction = () => {
   ];
 };
 
-export async function loader({context}: LoaderArgs) {
-  const layout = await context.storefront.query<{shop: Shop}>(LAYOUT_QUERY);
-  return {layout};
-}
-
 export default function App() {
-  // const data = useLoaderData<typeof loader>();
-  // const {name} = data.layout.shop;
-
   return (
     <html lang="en">
       <head>
@@ -67,12 +53,3 @@ export default function App() {
     </html>
   );
 }
-
-const LAYOUT_QUERY = `#graphql
-  query layout {
-    shop {
-      name
-      description
-    }
-  }
-`;

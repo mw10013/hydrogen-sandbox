@@ -1,10 +1,12 @@
 /* eslint-disable hydrogen/prefer-image-component */
-import {useLoaderData} from '@remix-run/react';
+import {useFetcher, useLoaderData} from '@remix-run/react';
 import {Money} from '@shopify/hydrogen-react';
+import {CartLineInput} from '@shopify/hydrogen/storefront-api-types';
 import {LoaderArgs, LoaderFunction} from '@shopify/remix-oxygen';
 import invariant from 'tiny-invariant';
+import { CartAction } from '~/cart';
 
-const query = `#graphql
+const QUERY = `#graphql
 query Product($handle: String!) {
     product(handle: $handle) {
       title
@@ -40,7 +42,7 @@ query Product($handle: String!) {
 export const loader = (async ({context, params}: LoaderArgs) => {
   const handle = params.handle;
   invariant(handle, 'Missing handle');
-  const data = await context.storefront.query<any>(query, {
+  const data = await context.storefront.query<any>(QUERY, {
     variables: {
       handle,
     },
@@ -79,12 +81,52 @@ export default function ProductRoute() {
             <div className="prose prose-sm mt-4 text-gray-300">
               {product.description}
             </div>
+            <button
+              type="submit"
+              disabled={!product.availableForSale}
+              className="disabled:opacity-50 mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-600 py-3 px-8 text-base font-medium text-gray-700 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
+            >
+              Add to cart
+            </button>
           </div>
         </div>
 
         {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       </div>
     </div>
+  );
+}
+
+
+
+export function AddToCartButton({
+  disabled,
+  children,
+  lines,
+  countryCode,
+  ...props
+}: React.ComponentPropsWithoutRef<'button'> & {
+  lines: CartLineInput[];
+  countryCode: string;
+}) {
+  // const [root] = useMatches();
+  // const selectedLocale = root?.data?.selectedLocale;
+  const fetcher = useFetcher();
+  return (
+    <fetcher.Form action="/cart" method="post">
+      <input type="hidden" name="cartAction" value={CartAction.ADD_TO_CART} />
+      {/* <input type="hidden" name="countryCode" value={selectedLocale.country} /> */}
+      <input type="hidden" name="countryCode" value={countryCode} />
+      <input type="hidden" name="lines" value={JSON.stringify(lines)} />
+      <button
+        {...props}
+        type="submit"
+        disabled={disabled}
+        className="disabled:opacity-50 mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-600 py-3 px-8 text-base font-medium text-gray-700 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
+      >
+        {children}
+      </button>
+    </fetcher.Form>
   );
 }
 
