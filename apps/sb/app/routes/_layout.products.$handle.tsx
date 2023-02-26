@@ -1,10 +1,14 @@
 /* eslint-disable hydrogen/prefer-image-component */
 import {useFetcher, useLoaderData} from '@remix-run/react';
 import {Money} from '@shopify/hydrogen-react';
-import {CartLineInput} from '@shopify/hydrogen/storefront-api-types';
+import {
+  CartLineInput,
+  CountryCode,
+} from '@shopify/hydrogen/storefront-api-types';
 import {LoaderArgs, LoaderFunction} from '@shopify/remix-oxygen';
 import invariant from 'tiny-invariant';
-import { CartAction } from '~/cart';
+import {CartAction} from '~/cart';
+import {useI18N} from './_layout';
 
 const QUERY = `#graphql
 query Product($handle: String!) {
@@ -52,6 +56,7 @@ export const loader = (async ({context, params}: LoaderArgs) => {
 
 export default function ProductRoute() {
   const {product} = useLoaderData<typeof loader>();
+  const i18n = useI18N();
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-8">
       <div className="border-4 border-black mx-auto max-w-2xl bg-black/40 px-4 sm:px-6 lg:px-8 py-8">
@@ -81,23 +86,25 @@ export default function ProductRoute() {
             <div className="prose prose-sm mt-4 text-gray-300">
               {product.description}
             </div>
-            <button
-              type="submit"
+            <AddToCartButton
               disabled={!product.availableForSale}
-              className="disabled:opacity-50 mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-600 py-3 px-8 text-base font-medium text-gray-700 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
+              lines={[
+                {
+                  quantity: 1,
+                  // merchandiseId: firstVariant.id,
+                  merchandiseId: product.variants.nodes[0].id,
+                },
+              ]}
+              countryCode={i18n.country}
             >
               Add to cart
-            </button>
+            </AddToCartButton>
           </div>
         </div>
-
-        {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       </div>
     </div>
   );
 }
-
-
 
 export function AddToCartButton({
   disabled,
@@ -107,7 +114,7 @@ export function AddToCartButton({
   ...props
 }: React.ComponentPropsWithoutRef<'button'> & {
   lines: CartLineInput[];
-  countryCode: string;
+  countryCode: CountryCode;
 }) {
   // const [root] = useMatches();
   // const selectedLocale = root?.data?.selectedLocale;
@@ -115,7 +122,6 @@ export function AddToCartButton({
   return (
     <fetcher.Form action="/cart" method="post">
       <input type="hidden" name="cartAction" value={CartAction.ADD_TO_CART} />
-      {/* <input type="hidden" name="countryCode" value={selectedLocale.country} /> */}
       <input type="hidden" name="countryCode" value={countryCode} />
       <input type="hidden" name="lines" value={JSON.stringify(lines)} />
       <button

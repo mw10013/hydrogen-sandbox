@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable hydrogen/prefer-image-component */
-import {Await, Link, Outlet, useLoaderData, useMatches} from '@remix-run/react';
+import {Await, Link, Outlet, useLoaderData, useMatches, useOutletContext} from '@remix-run/react';
 import {
   AppLoadContext,
   defer,
@@ -16,9 +16,11 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import invariant from 'tiny-invariant';
-import {Storefront} from '@shopify/hydrogen';
+import {I18nBase, Storefront} from '@shopify/hydrogen';
 import {Cart} from '@shopify/hydrogen/storefront-api-types';
 import {Suspense} from 'react';
+
+type ContextType = {i18n: I18nBase};
 
 const LAYOUT_QUERY = `#graphql
 query Layout {
@@ -234,7 +236,7 @@ export const loader = (async ({context}: LoaderArgs) => {
 
   return defer({
     layout,
-    selectedLocale: context.storefront.i18n,
+    i18n: context.storefront.i18n,
     cartId,
     cart: cartId ? getCart(context, cartId) : undefined,
     // analytics: {
@@ -295,7 +297,8 @@ function Header() {
 }
 
 export default function LayoutRoute() {
-  const {layout} = useLoaderData<typeof loader>();
+  const {layout, i18n} = useLoaderData<typeof loader>();
+  const context: ContextType = {i18n};
   return (
     <div
       className="overflow-auto h-screen bg-cover bg-center"
@@ -304,7 +307,7 @@ export default function LayoutRoute() {
       }}
     >
       <Header />
-      <Outlet />
+      <Outlet context={context} />
       {/* <div className="bg-gray-200 p-4">
         <pre className="border-2 border-blue-300 p-4 mt-2">
           {JSON.stringify(data, null, 2)}
@@ -312,6 +315,10 @@ export default function LayoutRoute() {
       </div> */}
     </div>
   );
+}
+
+export function useI18N() {
+  return useOutletContext<ContextType>().i18n;
 }
 
 /*
