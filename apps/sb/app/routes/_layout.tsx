@@ -1,6 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable hydrogen/prefer-image-component */
-import {Await, Link, Outlet, useLoaderData, useMatches, useOutletContext} from '@remix-run/react';
+import {
+  Await,
+  Link,
+  Outlet,
+  useLoaderData,
+  useMatches,
+  useOutletContext,
+} from '@remix-run/react';
 import {
   AppLoadContext,
   defer,
@@ -216,6 +223,10 @@ const CART_QUERY = `#graphql
 async function getCart({storefront}: AppLoadContext, cartId: string) {
   invariant(storefront, 'missing storefront client in cart query');
 
+  await new Promise((resolve) => {
+    setTimeout(resolve, 3000);
+  });
+
   const {cart} = await storefront.query<{cart?: Cart}>(CART_QUERY, {
     variables: {
       cartId,
@@ -268,7 +279,7 @@ function Header() {
               {(cart) => <pre>{JSON.stringify(cart, null, 2)}</pre>}
             </Await>
           </Suspense>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
+          {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
         </div>
       </div>
       <div className="lg:flex lg:justify-between mt-4">
