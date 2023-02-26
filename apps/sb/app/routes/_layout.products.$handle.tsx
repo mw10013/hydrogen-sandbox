@@ -7,7 +7,7 @@ import {
 } from '@shopify/hydrogen/storefront-api-types';
 import {LoaderArgs, LoaderFunction} from '@shopify/remix-oxygen';
 import invariant from 'tiny-invariant';
-import {CartAction} from '~/cart';
+import {CartAction} from '~/routes/cart';
 import {useI18N} from './_layout';
 
 const QUERY = `#graphql
@@ -116,8 +116,6 @@ export function AddToCartButton({
   lines: CartLineInput[];
   countryCode: CountryCode;
 }) {
-  // const [root] = useMatches();
-  // const selectedLocale = root?.data?.selectedLocale;
   const fetcher = useFetcher();
   return (
     <fetcher.Form action="/cart" method="post">
