@@ -270,16 +270,14 @@ function Header() {
               aria-hidden="true"
             />
             <span className="ml-2 text-sm font-medium text-gray-100 group-hover:text-gray-800">
-              0
+              <Suspense fallback="0">
+                <Await resolve={data.cart}>
+                  {(cart) => cart?.totalQuantity ?? 0}
+                </Await>
+              </Suspense>
             </span>
             <span className="sr-only">items in cart, view bag</span>
           </a>
-          <Suspense fallback={<p>Awaiting cart</p>}>
-            <Await resolve={data.cart}>
-              {(cart) => <pre>{JSON.stringify(cart, null, 2)}</pre>}
-            </Await>
-          </Suspense>
-          {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
         </div>
       </div>
       <div className="lg:flex lg:justify-between mt-4">
