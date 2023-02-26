@@ -273,6 +273,12 @@ function Header() {
               <Suspense fallback="0">
                 <Await resolve={data.cart}>
                   {(cart) => cart?.totalQuantity ?? 0}
+                  {/* {(cart) => {
+                    if (cart) {
+                      return cart.totalQuantity;
+                    }
+                    return 0;
+                  }} */}
                 </Await>
               </Suspense>
             </span>
