@@ -1,18 +1,30 @@
 /* eslint-disable hydrogen/prefer-image-component */
 
-// background image: 3038 × 2602
+import {Await, useLoaderData} from '@remix-run/react';
+import {defer, LoaderFunction} from '@shopify/remix-oxygen';
+import {Suspense} from 'react';
+
+export const loader = (async () => {
+  const immediateValue = 'immediateValue';
+  const deferredValue = new Promise((resolve) => {
+    setTimeout(() => resolve('deferredValue'), 3000);
+  });
+  return defer({
+    immediateValue,
+    deferredValue,
+  });
+}) satisfies LoaderFunction;
+
 export default function Sb1Route() {
+  const data = useLoaderData<typeof loader>();
   return (
-    // <div className="relative isolate overflow-hidden- bg-gray-900 min-h-screen-">
-    <img
-      // className="w-[1102px] h-[867px]"
-      // className="w-[1519px] h-[1301px]"
-      // className="h-full"
-      src="https://cdn.shopify.com/s/files/1/0720/0230/6368/files/background.jpg?v=1676861944"
-      alt=""
-      width="3038"
-      height="2602"
-    />
-    // </div>
+    <div className="max-w-md mx-auto mt-8 px-4 py-2 border">
+      <p>Immediate Value: {data.immediateValue}</p>
+      <Suspense fallback="Pending deferred value">
+        <Await resolve={data.deferredValue}>
+          {(v) => `Deferred value: ${v}`}
+        </Await>
+      </Suspense>
+    </div>
   );
 }

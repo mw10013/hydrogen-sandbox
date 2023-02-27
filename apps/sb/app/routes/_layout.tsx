@@ -229,7 +229,8 @@ async function getCart({storefront}: AppLoadContext, cartId: string) {
 
   const {cart} = await storefront.query<{cart?: Cart}>(CART_QUERY, {
     variables: {
-      cartId,
+      // cartId,
+      cartId: '1',
       country: storefront.i18n.country,
       language: storefront.i18n.language,
     },
@@ -257,6 +258,15 @@ export const loader = (async ({context}: LoaderArgs) => {
   });
 }) satisfies LoaderFunction;
 
+type TLoader = typeof loader;
+
+// export interface AwaitProps<Resolve> {
+//   children: React.ReactNode | ((value: Awaited<Resolve>) => React.ReactNode);
+//   errorElement?: React.ReactNode;
+//   resolve: Resolve;
+// }
+// export declare function Await<Resolve>(props: AwaitProps<Resolve>): JSX.Element;
+
 function Header() {
   const {layout, ...data} = useLoaderData<typeof loader>();
   return (
@@ -271,7 +281,7 @@ function Header() {
             />
             <span className="ml-2 text-sm font-medium text-gray-100 group-hover:text-gray-800">
               <Suspense fallback="0">
-                <Await resolve={data.cart}>
+                <Await resolve={data.cart} errorElement={'Cart fetch error'}>
                   {(cart) => cart?.totalQuantity ?? 0}
                   {/* {(cart) => {
                     if (cart) {
