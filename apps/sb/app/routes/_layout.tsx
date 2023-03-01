@@ -261,7 +261,7 @@ function Header() {
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="flex justify-between">
         <div></div>
-        <div className="bg-black opacity-80 mt-8 p-2 rounded-md shadow text-gray-200">
+        <div className="mt-8 rounded-md bg-black p-2 text-gray-200 opacity-80 shadow">
           <a href="#" className="group -m-2 flex items-center p-2">
             <ShoppingBagIcon
               className="h-6 w-6 flex-shrink-0 text-gray-200 group-hover:text-gray-500"
@@ -278,7 +278,7 @@ function Header() {
           </a>
         </div>
       </div>
-      <div className="lg:flex lg:justify-between mt-4">
+      <div className="mt-4 lg:flex lg:justify-between">
         <Link to="/">
           {/* <Image data={data.logo} loaderOptions={{crop: 'left', width: 820}} /> */}
           <img src={layout.logo.url} alt="" className="w-[600px]" />
@@ -287,7 +287,7 @@ function Header() {
           {layout.nav_links.map((i: any) => (
             <Link key={i.name} to={i.href} className="flex-none">
               <img
-                className="w-[90px] h-[75px] sm:w-[125px] sm:h-[100px]"
+                className="h-[75px] w-[90px] sm:h-[100px] sm:w-[125px]"
                 src={i.image.url}
                 alt={i.image.altText}
                 // width={i.image.width}
@@ -308,7 +308,7 @@ export default function LayoutRoute() {
   const context: ContextType = {i18n};
   return (
     <div
-      className="overflow-auto h-screen bg-cover bg-center"
+      className="h-screen overflow-auto bg-cover bg-center"
       style={{
         backgroundImage: `url('${layout.background_image.url}')`,
       }}

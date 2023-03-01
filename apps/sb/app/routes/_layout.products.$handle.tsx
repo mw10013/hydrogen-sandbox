@@ -59,8 +59,8 @@ export default function ProductRoute() {
   const {product} = useLoaderData<typeof loader>();
   const i18n = useI18N();
   return (
-    <div className="px-4 sm:px-6 lg:px-8 py-8">
-      <div className="border-4 border-black mx-auto max-w-2xl bg-black/40 px-4 sm:px-6 lg:px-8 py-8">
+    <div className="px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-2xl border-4 border-black bg-black/40 px-4 py-8 sm:px-6 lg:px-8">
         <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
           <div className="flex justify-between lg:col-span-5 lg:col-start-8">
             <h1 className="text-xl font-medium text-gray-100 ">
@@ -74,7 +74,7 @@ export default function ProductRoute() {
               />
             </p>
           </div>
-          <div className="mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:row-start1 lg:mt-0">
+          <div className="lg:row-start1 mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:mt-0">
             <img
               className="rounded-lg"
               src={product.featuredImage.url}
@@ -128,7 +128,7 @@ export function AddToCartButton({
         {...props}
         type="submit"
         disabled={disabled}
-        className="disabled:opacity-50 mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-600 py-3 px-8 text-base font-medium text-gray-700 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
+        className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-600 py-3 px-8 text-base font-medium text-gray-700 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 disabled:opacity-50"
       >
         {children}
       </button>
