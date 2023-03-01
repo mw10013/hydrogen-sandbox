@@ -67,6 +67,7 @@ export default function ProductRoute() {
             </h1>
             <p className="text-xl font-medium text-gray-100">
               <Money
+                as="span"
                 data={product.priceRange.maxVariantPrice}
                 withoutCurrency
               />

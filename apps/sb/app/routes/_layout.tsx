@@ -229,8 +229,8 @@ async function getCart({storefront}: AppLoadContext, cartId: string) {
 
   const {cart} = await storefront.query<{cart?: Cart}>(CART_QUERY, {
     variables: {
-      // cartId,
-      cartId: '1',
+      cartId,
+      // cartId: '1',
       country: storefront.i18n.country,
       language: storefront.i18n.language,
     },
@@ -250,22 +250,9 @@ export const loader = (async ({context}: LoaderArgs) => {
     layout,
     i18n: context.storefront.i18n,
     cartId,
-    cart: cartId ? getCart(context, cartId) : undefined,
-    // analytics: {
-    //   shopifySalesChannel: ShopifySalesChannel.hydrogen,
-    //   shopId: layout.shop.id,
-    // },
+    cart: cartId ? await getCart(context, cartId) : undefined,
   });
 }) satisfies LoaderFunction;
-
-type TLoader = typeof loader;
-
-// export interface AwaitProps<Resolve> {
-//   children: React.ReactNode | ((value: Awaited<Resolve>) => React.ReactNode);
-//   errorElement?: React.ReactNode;
-//   resolve: Resolve;
-// }
-// export declare function Await<Resolve>(props: AwaitProps<Resolve>): JSX.Element;
 
 function Header() {
   const {layout, ...data} = useLoaderData<typeof loader>();
@@ -283,12 +270,6 @@ function Header() {
               <Suspense fallback="0">
                 <Await resolve={data.cart} errorElement={'Cart fetch error'}>
                   {(cart) => cart?.totalQuantity ?? 0}
-                  {/* {(cart) => {
-                    if (cart) {
-                      return cart.totalQuantity;
-                    }
-                    return 0;
-                  }} */}
                 </Await>
               </Suspense>
             </span>
@@ -498,6 +479,84 @@ export function useI18N() {
       "name": "Story"
     }
   ]
+}
+
+{
+  "id": "gid://shopify/Cart/c1-6969d39f56715457ac6883149af402d8",
+  "checkoutUrl": "https://sandbox-shop-01.myshopify.com/cart/c/c1-6969d39f56715457ac6883149af402d8",
+  "totalQuantity": 1,
+  "buyerIdentity": {
+    "countryCode": "US",
+    "customer": null,
+    "email": null,
+    "phone": null
+  },
+  "lines": {
+    "edges": [
+      {
+        "node": {
+          "id": "gid://shopify/CartLine/827d97a3-bab9-4cac-a394-6085accd35b0?cart=c1-6969d39f56715457ac6883149af402d8",
+          "quantity": 1,
+          "attributes": [],
+          "cost": {
+            "totalAmount": {
+              "amount": "35.0",
+              "currencyCode": "USD"
+            },
+            "amountPerQuantity": {
+              "amount": "35.0",
+              "currencyCode": "USD"
+            },
+            "compareAtAmountPerQuantity": null
+          },
+          "merchandise": {
+            "id": "gid://shopify/ProductVariant/44457543860544",
+            "availableForSale": true,
+            "compareAtPrice": null,
+            "price": {
+              "currencyCode": "USD",
+              "amount": "35.0"
+            },
+            "requiresShipping": true,
+            "title": "Default Title",
+            "image": {
+              "id": "gid://shopify/ProductImage/40556190171456",
+              "url": "https://cdn.shopify.com/s/files/1/0720/0230/6368/products/43dc46_de5c6ba4cd3149478deb4288e1dc5a4e_mv2.webp?v=1676500217",
+              "altText": null,
+              "width": 650,
+              "height": 840
+            },
+            "product": {
+              "handle": "70-dark-chocolate",
+              "title": "70% Dark Chocolate",
+              "id": "gid://shopify/Product/8153242861888"
+            },
+            "selectedOptions": [
+              {
+                "name": "Title",
+                "value": "Default Title"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "cost": {
+    "subtotalAmount": {
+      "currencyCode": "USD",
+      "amount": "35.0"
+    },
+    "totalAmount": {
+      "currencyCode": "USD",
+      "amount": "35.0"
+    },
+    "totalDutyAmount": null,
+    "totalTaxAmount": null
+  },
+  "note": "",
+  "attributes": [],
+  "discountCodes": []
 }
 
 */
