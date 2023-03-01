@@ -24,7 +24,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import invariant from 'tiny-invariant';
-import {I18nBase, Storefront} from '@shopify/hydrogen';
+import {I18nBase, Money, Storefront} from '@shopify/hydrogen';
 import {Cart} from '@shopify/hydrogen/storefront-api-types';
 import {Fragment, Suspense} from 'react';
 import React from 'react';
@@ -266,6 +266,7 @@ function Cart({
   title: React.ReactNode;
   children: React.ReactNode;
 }) {
+  const {cart} = useLoaderData<typeof loader>();
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-40" onClose={setOpen}>
@@ -324,7 +325,7 @@ function Cart({
                     <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Subtotal</p>
-                        <p>$262.00!</p>
+                        <Money as="p" data={cart.cost.subtotalAmount} />
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500">
                         Shipping and taxes calculated at checkout.
@@ -414,34 +415,6 @@ function Navigation({setCartOpen}: {setCartOpen: (open: boolean) => void}) {
   );
 }
 
-const products = [
-  {
-    id: 1,
-    name: 'Throwback Hip Bag',
-    href: '#',
-    color: 'Salmon',
-    price: '$90.00',
-    quantity: 1,
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg',
-    imageAlt:
-      'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.',
-  },
-  {
-    id: 2,
-    name: 'Medium Stuff Satchel',
-    href: '#',
-    color: 'Blue',
-    price: '$32.00',
-    quantity: 1,
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg',
-    imageAlt:
-      'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.',
-  },
-  // More products...
-];
-
 function Header() {
   const {cart} = useLoaderData<typeof loader>();
   const [cartOpen, setCartOpen] = React.useState(false);
@@ -470,9 +443,13 @@ function Header() {
                       {cartLine.merchandise.product.title}
                     </Link>
                   </h3>
-                  <p className="ml-4">Price???</p>
+                  <Money
+                    as="p"
+                    className="ml-4"
+                    data={cartLine.cost.totalAmount}
+                  />
                 </div>
-                <p className="mt-1 text-sm text-gray-500">Color???</p>
+                {/* <p className="mt-1 text-sm text-gray-500"></p> */}
               </div>
               <div className="flex flex-1 items-end justify-between text-sm">
                 <p className="text-gray-500">Qty {cartLine.quantity}</p>
