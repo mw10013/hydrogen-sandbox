@@ -55,23 +55,23 @@ export default function App() {
   );
 }
 
-export function ErrorBoundary({error}: {error: Error}) {
-  // eslint-disable-next-line no-console
-  console.error(error);
-  return (
-    <html lang="en">
-      <head>
-        <title>Error Boundary</title>
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <pre>{JSON.stringify(error, null, 2)}</pre>
-        <Scripts />
-      </body>
-    </html>
-  );
-}
+// export function ErrorBoundary({error}: {error: Error}) {
+//   // eslint-disable-next-line no-console
+//   console.error(error);
+//   return (
+//     <html lang="en">
+//       <head>
+//         <title>Error Boundary</title>
+//         <Meta />
+//         <Links />
+//       </head>
+//       <body>
+//         <pre>{JSON.stringify(error, null, 2)}</pre>
+//         <Scripts />
+//       </body>
+//     </html>
+//   );
+// }
 
 export function CatchBoundary() {
   const caught = useCatch();

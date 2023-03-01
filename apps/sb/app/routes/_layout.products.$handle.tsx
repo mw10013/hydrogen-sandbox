@@ -67,11 +67,7 @@ export default function ProductRoute() {
               {product.title}
             </h1>
             <p className="text-xl font-medium text-gray-100">
-              <Money
-                as="span"
-                data={product.priceRange.maxVariantPrice}
-                withoutCurrency
-              />
+              <Money as="span" data={product.priceRange.maxVariantPrice} />
             </p>
           </div>
           <div className="lg:row-start1 mt-8 lg:col-span-7 lg:col-start-1 lg:row-span-3 lg:mt-0">

@@ -5,6 +5,7 @@ import {
   Await,
   Link,
   Outlet,
+  useFetcher,
   useLoaderData,
   useMatches,
   useOutletContext,
@@ -25,10 +26,11 @@ import {
 } from '@heroicons/react/24/outline';
 import invariant from 'tiny-invariant';
 import {I18nBase, Money, Storefront} from '@shopify/hydrogen';
-import {Cart} from '@shopify/hydrogen/storefront-api-types';
+import {Cart, CartLine} from '@shopify/hydrogen/storefront-api-types';
 import {Fragment, Suspense} from 'react';
 import React from 'react';
 import {Dialog, Transition} from '@headlessui/react';
+import {CartAction} from './cart';
 
 type ContextType = {i18n: I18nBase};
 
@@ -363,6 +365,59 @@ function Cart({
   );
 }
 
+function CartLineComponent({cartLine}: {cartLine: CartLine}) {
+  const fetcher = useFetcher();
+
+  return (
+    <li key={cartLine.id} className="flex py-6">
+      <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+        <img
+          src={cartLine.merchandise.image?.url}
+          alt={cartLine.merchandise.image?.altText ?? ''}
+          width={cartLine.merchandise.image?.width ?? undefined}
+          height={cartLine.merchandise.image?.height ?? undefined}
+          className="h-full w-full object-cover object-center"
+        />
+      </div>
+
+      <div className="ml-4 flex flex-1 flex-col">
+        <div>
+          <div className="flex justify-between text-base font-medium text-gray-900">
+            <h3>
+              <Link to={`/products/${cartLine.merchandise.product.handle}`}>
+                {cartLine.merchandise.product.title}
+              </Link>
+            </h3>
+            <Money as="p" className="ml-4" data={cartLine.cost.totalAmount} />
+          </div>
+          {/* <p className="mt-1 text-sm text-gray-500"></p> */}
+        </div>
+        <div className="flex flex-1 items-end justify-between text-sm">
+          <p className="text-gray-500">Qty {cartLine.quantity}</p>
+          <fetcher.Form action="/cart" method="post">
+            <input
+              type="hidden"
+              name="cartAction"
+              value={CartAction.REMOVE_FROM_CART}
+            />
+            <input
+              type="hidden"
+              name="linesIds"
+              value={JSON.stringify([cartLine.id])}
+            />
+            <button
+              type="submit"
+              className="font-medium text-indigo-600 hover:text-indigo-500"
+            >
+              Remove
+            </button>
+          </fetcher.Form>
+        </div>
+      </div>
+    </li>
+  );
+}
+
 function Navigation({setCartOpen}: {setCartOpen: (open: boolean) => void}) {
   const {layout, ...data} = useLoaderData<typeof loader>();
   return (
@@ -422,49 +477,7 @@ function Header() {
     <>
       <Cart title="Shopping cart" open={cartOpen} setOpen={setCartOpen}>
         {cart?.lines.nodes.map((cartLine) => (
-          <li key={cartLine.id} className="flex py-6">
-            <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-              <img
-                src={cartLine.merchandise.image?.url}
-                alt={cartLine.merchandise.image?.altText ?? ''}
-                width={cartLine.merchandise.image?.width ?? undefined}
-                height={cartLine.merchandise.image?.height ?? undefined}
-                className="h-full w-full object-cover object-center"
-              />
-            </div>
-
-            <div className="ml-4 flex flex-1 flex-col">
-              <div>
-                <div className="flex justify-between text-base font-medium text-gray-900">
-                  <h3>
-                    <Link
-                      to={`/products/${cartLine.merchandise.product.handle}`}
-                    >
-                      {cartLine.merchandise.product.title}
-                    </Link>
-                  </h3>
-                  <Money
-                    as="p"
-                    className="ml-4"
-                    data={cartLine.cost.totalAmount}
-                  />
-                </div>
-                {/* <p className="mt-1 text-sm text-gray-500"></p> */}
-              </div>
-              <div className="flex flex-1 items-end justify-between text-sm">
-                <p className="text-gray-500">Qty {cartLine.quantity}</p>
-
-                <div className="flex">
-                  <button
-                    type="button"
-                    className="font-medium text-indigo-600 hover:text-indigo-500"
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            </div>
-          </li>
+          <CartLineComponent key={cartLine.id} cartLine={cartLine} />
         ))}
       </Cart>
       <header className="relative overflow-hidden">
