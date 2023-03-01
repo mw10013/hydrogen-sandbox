@@ -5,6 +5,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useCatch,
 } from '@remix-run/react';
 import favicon from '../public/favicon.svg';
 import stylesheet from '~/styles/tailwind.css';
@@ -51,5 +52,37 @@ export default function App() {
         <Scripts />
       </body>
     </html>
+  );
+}
+
+export function ErrorBoundary({error}: {error: any}) {
+  // eslint-disable-next-line no-console
+  console.error(error);
+  return (
+    <html lang="en">
+      <head>
+        <title>Error Boundary</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <pre>{JSON.stringify(error, null, 2)}</pre>
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
+export function CatchBoundary() {
+  const caught = useCatch();
+
+  return (
+    <div>
+      <h1>Caught</h1>
+      <p>Status: {caught.status}</p>
+      <pre>
+        <code>{JSON.stringify(caught.data, null, 2)}</code>
+      </pre>
+    </div>
   );
 }
