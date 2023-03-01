@@ -1,3 +1,4 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable hydrogen/prefer-image-component */
 import {useFetcher, useLoaderData} from '@remix-run/react';
 import {Money} from '@shopify/hydrogen-react';

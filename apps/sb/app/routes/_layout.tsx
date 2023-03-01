@@ -1,3 +1,4 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable hydrogen/prefer-image-component */
 import {

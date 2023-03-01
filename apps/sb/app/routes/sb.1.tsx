@@ -1,5 +1,3 @@
-/* eslint-disable hydrogen/prefer-image-component */
-
 import {Await, useLoaderData} from '@remix-run/react';
 import {defer, LoaderFunction} from '@shopify/remix-oxygen';
 import {Suspense} from 'react';
