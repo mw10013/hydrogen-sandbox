@@ -55,7 +55,7 @@ export default function App() {
   );
 }
 
-export function ErrorBoundary({error}: {error: any}) {
+export function ErrorBoundary({error}: {error: Error}) {
   // eslint-disable-next-line no-console
   console.error(error);
   return (
