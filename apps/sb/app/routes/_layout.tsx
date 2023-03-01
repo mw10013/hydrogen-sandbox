@@ -134,52 +134,50 @@ const CART_QUERY = `#graphql
       phone
     }
     lines(first: 100) {
-      edges {
-        node {
-          id
-          quantity
-          attributes {
-            key
-            value
+      nodes {
+        id
+        quantity
+        attributes {
+          key
+          value
+        }
+        cost {
+          totalAmount {
+            amount
+            currencyCode
           }
-          cost {
-            totalAmount {
-              amount
-              currencyCode
-            }
-            amountPerQuantity {
-              amount
-              currencyCode
-            }
-            compareAtAmountPerQuantity {
-              amount
-              currencyCode
-            }
+          amountPerQuantity {
+            amount
+            currencyCode
           }
-          merchandise {
-            ... on ProductVariant {
-              id
-              availableForSale
-              compareAtPrice {
-                ...MoneyFragment
-              }
-              price {
-                ...MoneyFragment
-              }
-              requiresShipping
+          compareAtAmountPerQuantity {
+            amount
+            currencyCode
+          }
+        }
+        merchandise {
+          ... on ProductVariant {
+            id
+            availableForSale
+            compareAtPrice {
+              ...MoneyFragment
+            }
+            price {
+              ...MoneyFragment
+            }
+            requiresShipping
+            title
+            image {
+              ...ImageFragment
+            }
+            product {
+              handle
               title
-              image {
-                ...ImageFragment
-              }
-              product {
-                handle
-                title
-                id
-              }
-              selectedOptions {
-                name
-                value
-              }
+              id
+            }
+            selectedOptions {
+              name
+              value
             }
           }
         }
@@ -445,17 +443,19 @@ const products = [
 ];
 
 function Header() {
-  const {layout, ...data} = useLoaderData<typeof loader>();
+  const {cart} = useLoaderData<typeof loader>();
   const [cartOpen, setCartOpen] = React.useState(false);
   return (
     <>
       <Cart title="Shopping cart" open={cartOpen} setOpen={setCartOpen}>
-        {products.map((product) => (
-          <li key={product.id} className="flex py-6">
+        {cart?.lines.nodes.map((cartLine) => (
+          <li key={cartLine.id} className="flex py-6">
             <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
               <img
-                src={product.imageSrc}
-                alt={product.imageAlt}
+                src={cartLine.merchandise.image?.url}
+                alt={cartLine.merchandise.image?.altText ?? ''}
+                width={cartLine.merchandise.image?.width ?? undefined}
+                height={cartLine.merchandise.image?.height ?? undefined}
                 className="h-full w-full object-cover object-center"
               />
             </div>
@@ -464,14 +464,18 @@ function Header() {
               <div>
                 <div className="flex justify-between text-base font-medium text-gray-900">
                   <h3>
-                    <a href={product.href}>{product.name}</a>
+                    <Link
+                      to={`/products/${cartLine.merchandise.product.handle}`}
+                    >
+                      {cartLine.merchandise.product.title}
+                    </Link>
                   </h3>
-                  <p className="ml-4">{product.price}</p>
+                  <p className="ml-4">Price???</p>
                 </div>
-                <p className="mt-1 text-sm text-gray-500">{product.color}</p>
+                <p className="mt-1 text-sm text-gray-500">Color???</p>
               </div>
               <div className="flex flex-1 items-end justify-between text-sm">
-                <p className="text-gray-500">Qty {product.quantity}</p>
+                <p className="text-gray-500">Qty {cartLine.quantity}</p>
 
                 <div className="flex">
                   <button
@@ -683,9 +687,8 @@ export function useI18N() {
     "phone": null
   },
   "lines": {
-    "edges": [
+    "nodes": [
       {
-        "node": {
           "id": "gid://shopify/CartLine/827d97a3-bab9-4cac-a394-6085accd35b0?cart=c1-6969d39f56715457ac6883149af402d8",
           "quantity": 1,
           "attributes": [],
@@ -728,7 +731,6 @@ export function useI18N() {
                 "value": "Default Title"
               }
             ]
-          }
         }
       }
     ]
