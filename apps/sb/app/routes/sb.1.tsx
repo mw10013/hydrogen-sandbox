@@ -20,7 +20,7 @@ export const loader = (async () => {
 export default function Sb1Route() {
   const data = useLoaderData<typeof loader>();
   return (
-    <div className="max-w-md mx-auto mt-8 px-4 py-2 border">
+    <div className="bg-gray-300 max-w-md mx-auto mt-8 px-4 py-2 border ">
       <p>Immediate Value: {data.immediateValue}</p>
       <Suspense fallback={<p>PENDING deferredValueString</p>}>
         <Await resolve={data.deferredValueString}>
