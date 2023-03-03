@@ -159,9 +159,11 @@ importers:
       '@shopify/oxygen-workers-types': ^3.17.2
       '@shopify/prettier-config': ^1.1.2
       '@shopify/remix-oxygen': ^1.0.3
+      '@tailwindcss/aspect-ratio': ^0.4.2
       '@types/eslint': ^8.21.1
       '@types/react': ^18.0.28
       '@types/react-dom': ^18.0.11
+      clsx: ^1.2.1
       eslint: ^8.35.0
       eslint-plugin-hydrogen: 0.12.3
       graphql: ^16.6.0
@@ -183,6 +185,7 @@ importers:
       '@shopify/hydrogen': registry.npmjs.org/@shopify/hydrogen/2023.1.5_icw2cz6nwbmdoygju5apkrukoy
       '@shopify/hydrogen-react': registry.npmjs.org/@shopify/hydrogen-react/2023.1.6_zula6vjvt3wdocc4mwcxqa6nzi
       '@shopify/remix-oxygen': registry.npmjs.org/@shopify/remix-oxygen/1.0.3_c5onxbe2shfcfo43bfl2bca5ci
+      clsx: 1.2.1
       graphql: 16.6.0
       graphql-tag: 2.12.6_graphql@16.6.0
       react: 18.2.0
@@ -192,6 +195,7 @@ importers:
       '@remix-run/dev': 1.14.0
       '@shopify/oxygen-workers-types': registry.npmjs.org/@shopify/oxygen-workers-types/3.17.2
       '@shopify/prettier-config': registry.npmjs.org/@shopify/prettier-config/1.1.2
+      '@tailwindcss/aspect-ratio': 0.4.2_tailwindcss@3.2.6
       '@types/eslint': 8.21.1
       '@types/react': 18.0.28
       '@types/react-dom': 18.0.11
@@ -4045,6 +4049,14 @@ packages:
     dependencies:
       defer-to-connect: 2.0.1
     dev: false
+
+  /@tailwindcss/aspect-ratio/0.4.2_tailwindcss@3.2.6:
+    resolution: {integrity: sha512-8QPrypskfBa7QIMuKHg2TA7BqES6vhBrDLOv8Unb6FcFyd3TjKbc6lcmb9UPQHxfl24sXoJ41ux/H7qQQvfaSQ==}
+    peerDependencies:
+      tailwindcss: '>=2.0.0 || >=3.0.0 || >=3.0.0-alpha.1'
+    dependencies:
+      tailwindcss: 3.2.6
+    dev: true
 
   /@tailwindcss/forms/0.5.3_tailwindcss@3.2.6:
     resolution: {integrity: sha512-y5mb86JUoiUgBjY/o6FJSFZSEttfb3Q5gllE4xoKjAAD+vBrnIhE4dViwUuow3va8mpH4s9jyUbUbrRGoRdc2Q==}

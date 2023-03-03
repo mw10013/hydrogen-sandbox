@@ -25,7 +25,11 @@ import {
 } from '@heroicons/react/24/outline';
 import invariant from 'tiny-invariant';
 import {I18nBase, Money, Storefront} from '@shopify/hydrogen';
-import {Cart, CartLine, CartLineUpdateInput} from '@shopify/hydrogen/storefront-api-types';
+import {
+  Cart,
+  CartLine,
+  CartLineUpdateInput,
+} from '@shopify/hydrogen/storefront-api-types';
 import {Fragment, Suspense} from 'react';
 import React from 'react';
 import {Dialog, Transition} from '@headlessui/react';
