@@ -1,0 +1,13 @@
+build
+node_modules
+bin
+*.d.ts
+
+/.cache
+/build
+/dist
+/public/build
+/.mf
+.env
+
+/.scratch
