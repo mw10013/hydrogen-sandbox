@@ -59,7 +59,7 @@ export default function Route() {
                     />
                   </div>
                 </Link>
-                <div className="mt-2 grid place-content-center">
+                {/* <div className="mt-2 grid place-content-center">
                   <button
                     type="button"
                     disabled={!i.availableForSale}
@@ -67,7 +67,7 @@ export default function Route() {
                   >
                     {i.availableForSale ? 'Add to Cart' : 'Out of Stock'}
                   </button>
-                </div>
+                </div> */}
               </div>
             );
           })}

@@ -1,4 +1,3 @@
-/* eslint-disable hydrogen/prefer-image-component */
 import {useLoaderData} from '@remix-run/react';
 import {LoaderArgs, LoaderFunction} from '@shopify/remix-oxygen';
 
@@ -81,7 +80,7 @@ export const loader = (async ({context}: LoaderArgs) => {
 
 export default function HomeRoute() {
   const data = useLoaderData();
-  return <div className="text-white text-2xl px-4 sm:px-6 lg:px-8">Index</div>;
+  return <div className="px-4 text-2xl text-white sm:px-6 lg:px-8">Index</div>;
 }
 
 /*
