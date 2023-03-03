@@ -58,7 +58,7 @@ export const loader = (async ({context}: LoaderArgs) => {
         data[field.key] = field.reference.image;
         break;
       case 'nav_links':
-        data[field.key] = field.references.nodes.map((i) => {
+        data[field.key] = field.references.nodes.map((i: any) => {
           const o: any = {};
           for (const f of i.fields) {
             switch (f.type) {
