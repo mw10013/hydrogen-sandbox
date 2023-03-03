@@ -25,7 +25,7 @@ import {
 } from '@heroicons/react/24/outline';
 import invariant from 'tiny-invariant';
 import {I18nBase, Money, Storefront} from '@shopify/hydrogen';
-import {Cart, CartLine} from '@shopify/hydrogen/storefront-api-types';
+import {Cart, CartLine, CartLineUpdateInput} from '@shopify/hydrogen/storefront-api-types';
 import {Fragment, Suspense} from 'react';
 import React from 'react';
 import {Dialog, Transition} from '@headlessui/react';
@@ -400,7 +400,8 @@ function CartLineComponent({cartLine}: {cartLine: CartLine}) {
           {/* <p className="mt-1 text-sm text-gray-500"></p> */}
         </div>
         <div className="flex flex-1 items-end justify-between text-sm">
-          <p className="text-gray-500">Qty {cartLine.quantity}</p>
+          {/* <p className="text-gray-500">Qty {cartLine.quantity}</p> */}
+          <CartLineQuantityAdjust line={cartLine} />
           <fetcher.Form action="/cart" method="post">
             <input
               type="hidden"
@@ -422,6 +423,67 @@ function CartLineComponent({cartLine}: {cartLine: CartLine}) {
         </div>
       </div>
     </li>
+  );
+}
+
+function CartLineQuantityAdjust({line}: {line: CartLine}) {
+  if (!line || typeof line?.quantity === 'undefined') return null;
+  const {id: lineId, quantity} = line;
+  const prevQuantity = Number(Math.max(0, quantity - 1).toFixed(0));
+  const nextQuantity = Number((quantity + 1).toFixed(0));
+
+  return (
+    <>
+      <label htmlFor={`quantity-${lineId}`} className="sr-only">
+        Quantity, {quantity}
+      </label>
+      <div className="flex items-center rounded border">
+        <UpdateCartButton lines={[{id: lineId, quantity: prevQuantity}]}>
+          <button
+            name="decrease-quantity"
+            aria-label="Decrease quantity"
+            className="text-primary/50 hover:text-primary disabled:text-primary/10 h-10 w-10 transition"
+            value={prevQuantity}
+            disabled={quantity <= 1}
+          >
+            <span>&#8722;</span>
+          </button>
+        </UpdateCartButton>
+
+        <div className="px-2 text-center" data-test="item-quantity">
+          {quantity}
+        </div>
+
+        <UpdateCartButton lines={[{id: lineId, quantity: nextQuantity}]}>
+          <button
+            className="text-primary/50 hover:text-primary h-10 w-10 transition"
+            name="increase-quantity"
+            value={nextQuantity}
+            aria-label="Increase quantity"
+          >
+            <span>&#43;</span>
+          </button>
+        </UpdateCartButton>
+      </div>
+    </>
+  );
+}
+
+function UpdateCartButton({
+  children,
+  lines,
+}: {
+  children: React.ReactNode;
+  lines: CartLineUpdateInput[];
+}) {
+  const fetcher = useFetcher();
+
+  return (
+    <fetcher.Form action="/cart" method="post">
+      <input type="hidden" name="cartAction" value={CartAction.UPDATE_CART} />
+      <input type="hidden" name="lines" value={JSON.stringify(lines)} />
+      {children}
+    </fetcher.Form>
   );
 }
 
